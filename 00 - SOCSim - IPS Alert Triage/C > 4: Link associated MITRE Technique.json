@@ -1,0 +1,163 @@
+{
+    "@type": "Workflow",
+    "triggerLimit": null,
+    "name": "C > 4: Link associated MITRE Technique",
+    "aliasName": null,
+    "tag": null,
+    "description": null,
+    "isActive": true,
+    "debug": true,
+    "singleRecordExecution": false,
+    "remoteExecutableFlag": false,
+    "parameters": [
+        "record_iri",
+        "mitre_technique_id"
+    ],
+    "synchronous": false,
+    "lastModifyDate": 1645636389,
+    "collection": "\/api\/3\/workflow_collections\/5b5e50c1-2ae8-4cf7-b4fb-e6ac730eda61",
+    "versions": [],
+    "triggerStep": "\/api\/3\/workflow_steps\/019df0e8-aeec-469d-b4f1-edaf8a381d77",
+    "steps": [
+        {
+            "@type": "WorkflowStep",
+            "name": "Update Record",
+            "description": null,
+            "arguments": {
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "tenant": "",
+                    "content": "<p><span style=\"background-color:orange;color:black;font-weight:bold;border-radius: 4px\">Linking MITRE Techniques<\/span><\/p>\n\n- Technique: <span style=\"color:orange;font-weight:bold\">{{vars.input.params['mitre_technique_id']}}<\/span> is linked to the alert\n- Technique Mitigation:\n&gt; {{vars.steps.Find_Technique_Record[0].mitigations}}",
+                    "records": "{{vars.input.params['record_iri']}}"
+                },
+                "resource": {
+                    "__link": {
+                        "mitre_techniques": "{{vars.steps.Find_Technique_Record[0]['@id']}}"
+                    },
+                    "mitreattackid": "{{vars.steps.Find_Technique_Record[0]['mitreId']}}",
+                    "mitreTechnique": "{{vars.steps.Find_Technique_Record[0]['name']}}"
+                },
+                "_showJson": false,
+                "operation": "Append",
+                "collection": "{{vars.input.params['record_iri']}}",
+                "__recommend": [],
+                "collectionType": "\/api\/3\/alerts",
+                "fieldOperation": {
+                    "recordTags": "Append"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "292",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/b593663d-7d13-40ce-a3a3-96dece928722",
+            "uuid": "5aa8b0ea-3a1d-4fb5-aa48-014abaf30922",
+            "id": 8022
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Start",
+            "description": null,
+            "arguments": {
+                "step_variables": {
+                    "input": {
+                        "params": {
+                            "record_iri": "{{ vars.record_iri }}",
+                            "mitre_technique_id": "{{ vars.mitre_technique_id }}"
+                        }
+                    }
+                }
+            },
+            "status": null,
+            "top": "40",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+            "uuid": "019df0e8-aeec-469d-b4f1-edaf8a381d77",
+            "id": 8023
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Find Technique Record",
+            "description": null,
+            "arguments": {
+                "query": {
+                    "sort": [],
+                    "limit": 30,
+                    "logic": "AND",
+                    "filters": [
+                        {
+                            "type": "primitive",
+                            "field": "mitreId",
+                            "value": "{{vars.input.params['mitre_technique_id']}}",
+                            "operator": "eq",
+                            "_operator": "eq"
+                        }
+                    ]
+                },
+                "module": "mitre_techniques?$limit=30",
+                "checkboxFields": true,
+                "step_variables": []
+            },
+            "status": null,
+            "top": "160",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/b593663d-7d13-40ce-a3a3-96dece928770",
+            "uuid": "cf52c4b0-482e-43e3-b8be-2c6f09cc6789",
+            "id": 8024
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "debug",
+            "description": null,
+            "arguments": {
+                "all": "{{vars}}"
+            },
+            "status": null,
+            "top": "296",
+            "left": "381",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "uuid": "0ec5d15f-1ea9-4762-b483-6de70d6bf003",
+            "id": 8055
+        }
+    ],
+    "routes": [
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Find Technique Record",
+            "targetStep": "\/api\/3\/workflow_steps\/cf52c4b0-482e-43e3-b8be-2c6f09cc6789",
+            "sourceStep": "\/api\/3\/workflow_steps\/019df0e8-aeec-469d-b4f1-edaf8a381d77",
+            "label": null,
+            "isExecuted": false,
+            "uuid": "ded4d189-9c46-404e-b998-f09a2e0aa6c3"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Find Technique Record -> Update Record",
+            "targetStep": "\/api\/3\/workflow_steps\/5aa8b0ea-3a1d-4fb5-aa48-014abaf30922",
+            "sourceStep": "\/api\/3\/workflow_steps\/cf52c4b0-482e-43e3-b8be-2c6f09cc6789",
+            "label": null,
+            "isExecuted": false,
+            "uuid": "c7ab16bd-31c4-4366-b2af-774277f19a9f"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Update Record -> debug",
+            "targetStep": "\/api\/3\/workflow_steps\/0ec5d15f-1ea9-4762-b483-6de70d6bf003",
+            "sourceStep": "\/api\/3\/workflow_steps\/5aa8b0ea-3a1d-4fb5-aa48-014abaf30922",
+            "label": null,
+            "isExecuted": false,
+            "uuid": "fd06117b-1bfe-49b5-b2cf-db77562f3a69"
+        }
+    ],
+    "priority": "\/api\/3\/picklists\/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+    "uuid": "d03ad3ef-8098-4b15-88a1-fe4e90991c53",
+    "recordTags": [],
+    "id": 1560,
+    "createUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
+    "createDate": 1645552903,
+    "modifyUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
+    "modifyDate": 1645636388,
+    "owners": [],
+    "isPrivate": false
+}

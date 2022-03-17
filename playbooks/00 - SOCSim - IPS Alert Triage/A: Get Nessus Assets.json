@@ -1,0 +1,136 @@
+{
+    "@type": "Workflow",
+    "triggerLimit": null,
+    "name": "A: Get Nessus Assets",
+    "aliasName": null,
+    "tag": null,
+    "description": "Creates or Updates Nessus Assets",
+    "isActive": true,
+    "debug": true,
+    "singleRecordExecution": false,
+    "remoteExecutableFlag": false,
+    "parameters": [],
+    "synchronous": false,
+    "lastModifyDate": 1645552903,
+    "collection": "\/api\/3\/workflow_collections\/5b5e50c1-2ae8-4cf7-b4fb-e6ac730eda61",
+    "versions": [],
+    "triggerStep": "\/api\/3\/workflow_steps\/09e44341-bcce-4af1-a59c-ef831efdb2fd",
+    "steps": [
+        {
+            "@type": "WorkflowStep",
+            "name": "Process Nessus Assets",
+            "description": null,
+            "arguments": {
+                "for_each": {
+                    "item": "{{vars.list_scans_ids}}",
+                    "condition": ""
+                },
+                "arguments": {
+                    "scan_id": "{{vars.item}}"
+                },
+                "apply_async": false,
+                "step_variables": [],
+                "workflowReference": "\/api\/3\/workflows\/d4203841-feca-4288-a1bd-771927797502"
+            },
+            "status": null,
+            "top": "300",
+            "left": "125",
+            "stepType": "\/api\/3\/workflow_step_types\/74932bdc-b8b6-4d24-88c4-1a4dfbc524f3",
+            "uuid": "80851c7b-0d1e-411d-9ab3-e0abb00007ee",
+            "id": 7912
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Start",
+            "description": null,
+            "arguments": {
+                "route": "9f6381b1-8d92-430a-86a9-3b1817880819",
+                "resources": [
+                    "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                    "input": {
+                        "records": "{{vars.input.records}}"
+                    },
+                    "useMockOutput": "True"
+                },
+                "displayConditions": {
+                    "alerts": {
+                        "sort": [],
+                        "limit": 30,
+                        "logic": "AND",
+                        "filters": []
+                    }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+            },
+            "status": null,
+            "top": "30",
+            "left": "125",
+            "stepType": "\/api\/3\/workflow_step_types\/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+            "uuid": "09e44341-bcce-4af1-a59c-ef831efdb2fd",
+            "id": 7913
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "List Scans",
+            "description": null,
+            "arguments": {
+                "name": "Nessus",
+                "config": "78fe6c63-7de2-4a00-8f2c-e875a1cb99c2",
+                "params": {
+                    "days": "Last 30 Days"
+                },
+                "version": "1.0.0",
+                "connector": "nessus",
+                "operation": "get_scans",
+                "mock_result": "{\n  \"data\": [\n    {\n      \"id\": 6,\n      \"name\": \"Windows2019DC\",\n      \"read\": true,\n      \"type\": \"local\",\n      \"uuid\": \"a82efe11-1302-136c-fe18-4b530f40c50ecd36a7b2b51afa84\",\n      \"owner\": \"admin\",\n      \"rrules\": null,\n      \"shared\": false,\n      \"status\": \"completed\",\n      \"control\": true,\n      \"enabled\": false,\n      \"timezone\": null,\n      \"folder_id\": 3,\n      \"starttime\": null,\n      \"live_results\": 0,\n      \"creation_date\": 1602651319,\n      \"user_permissions\": 128,\n      \"last_modification_date\": 1602651747\n    }\n  ],\n  \"status\": \"Success\",\n  \"_status\": true,\n  \"message\": \"\",\n  \"operation\": null,\n  \"request_id\": null\n}",
+                "ignore_errors": false,
+                "operationTitle": "List Scans",
+                "step_variables": {
+                    "list_scans_ids": "{{vars.result.data|json_query(\"[].id\")}}",
+                    "list_scans_results": "{{vars.result.data}}"
+                }
+            },
+            "status": null,
+            "top": "165",
+            "left": "125",
+            "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
+            "uuid": "2dbcae17-a658-445d-ad52-fe3c78fa9a5d",
+            "id": 7914
+        }
+    ],
+    "routes": [
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> List Scans",
+            "targetStep": "\/api\/3\/workflow_steps\/2dbcae17-a658-445d-ad52-fe3c78fa9a5d",
+            "sourceStep": "\/api\/3\/workflow_steps\/09e44341-bcce-4af1-a59c-ef831efdb2fd",
+            "label": null,
+            "isExecuted": false,
+            "uuid": "ca581504-6eb8-4b6e-9d38-d0642b980f1f"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "List Scans -> Process Nessus Assets",
+            "targetStep": "\/api\/3\/workflow_steps\/80851c7b-0d1e-411d-9ab3-e0abb00007ee",
+            "sourceStep": "\/api\/3\/workflow_steps\/2dbcae17-a658-445d-ad52-fe3c78fa9a5d",
+            "label": null,
+            "isExecuted": false,
+            "uuid": "d3e9ce91-7e2c-4cb1-8ad5-32a5577183b8"
+        }
+    ],
+    "priority": null,
+    "uuid": "30abe1fa-8891-40dd-9935-43aa53aaa05d",
+    "recordTags": [],
+    "id": 1550,
+    "createUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
+    "createDate": 1645552903,
+    "modifyUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
+    "modifyDate": 1645553911,
+    "owners": [],
+    "isPrivate": false
+}
