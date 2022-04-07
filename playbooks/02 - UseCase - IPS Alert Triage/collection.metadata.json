@@ -1,7 +1,7 @@
 {
     "@context": "\/api\/3\/contexts\/WorkflowCollection",
     "@type": "WorkflowCollection",
-    "name": "00 - SOCSim - IPS Alert Triage",
+    "name": "02 - UseCase - IPS Alert Triage",
     "description": null,
     "visible": true,
     "image": null,
@@ -10,7 +10,7 @@
     "createUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
     "createDate": 1645552903,
     "modifyUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
-    "modifyDate": 1646996970,
+    "modifyDate": 1648486040,
     "recordTags": [
         "SOC_Simulator"
     ]

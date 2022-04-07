@@ -1,15 +1,15 @@
 [
     {
-        "id": 15,
-        "name": "Current_Date",
-        "value": "{{arrow.utcnow().timestamp}}",
-        "default_value": "{{arrow.utcnow().timestamp}}"
-    },
-    {
         "id": 22,
         "name": "Tomorrow_Date",
         "value": "{{arrow.utcnow().shift(hours=+24).timestamp}}",
         "default_value": "{{arrow.utcnow().shift(hours=+24).timestamp}}"
+    },
+    {
+        "id": 15,
+        "name": "Current_Date",
+        "value": "{{arrow.utcnow().timestamp}}",
+        "default_value": "{{arrow.utcnow().timestamp}}"
     },
     {
         "id": 4,
