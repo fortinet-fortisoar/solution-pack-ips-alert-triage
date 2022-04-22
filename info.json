@@ -1,0 +1,96 @@
+{
+    "name": "iPSAlertTriage",
+    "version": "1.0.0",
+    "type": "solutionpack",
+    "local": true,
+    "label": "IPS Alert Triage",
+    "dependencies": [
+        {
+            "name": "mITREATT&CKEnrichmentFramework",
+            "type": "solutionpack",
+            "label": "MITRE ATT&CK Enrichment Framework",
+            "version": "2.0.2",
+            "minVersion": null
+        },
+        {
+            "name": "sOARFramework",
+            "type": "solutionpack",
+            "label": "SOAR Framework",
+            "version": "1.0.0",
+            "minVersion": null
+        },
+        {
+            "name": "socSimulator",
+            "type": "solutionpack",
+            "label": "SOC Simulator",
+            "version": "1.0.1",
+            "minVersion": null
+        }
+    ],
+    "prerequisite": null,
+    "publisher": "Community",
+    "description": "# SIEM IPS Alert Triage through CVE correlation\n\nIn this scenario a SIEM system (FortiSIEM) triggers an Incident every time the IPS (FortiGate) logs a Permitted Inbound IPS packet. FortiSIEM then opens an alert in FortiSOAR which is maps all the incident artifacts and proceeds to validate if the target of the attack is vulnerable to the CVE reported by the FortiGate.\n\nThe vulnerability information is sourced from Nessus and mapped in the Vulnerability Management module, it would work the same way with any supported vulnerability scanner.\n\nThe aim of the scenario is to showcase the speed at which such Incidents can be closed, by correlating information from multiple sources to determine that even though a packet passed through the FortiGate, the alert may be a false positive because the target asset is not vulnerable to that specific CVE ID.",
+    "help": "https://github.com/fortinet-fortisoar/solution-pack-ips-alert-triage/blob/develop/README.md",
+    "category": [
+        "Investigation"
+    ],
+    "supportInfo": "https://github.com/dtomic-ftnt",
+    "iconLarge": null,
+    "recordTags": [
+        "fortinet-fortigate",
+        "fortinet-fortisiem"
+    ],
+    "fsrMinCompatibility": "7.2.0",
+    "date": "2022-04-22T11:58:25+00:00",
+    "contents": {
+        "picklistNames": [
+            {
+                "name": "AlertType"
+            }
+        ],
+        "modules": {
+            "scenario": {
+                "name": "Scenario",
+                "apiName": "scenario"
+            }
+        },
+        "playbooks": [
+            {
+                "name": "02 - UseCase - IPS Alert Triage"
+            }
+        ],
+        "globalVariables": [
+            {
+                "id": 4,
+                "name": "Current_Data",
+                "value": "{{vars.input.records[0]}}",
+                "default_value": null
+            },
+            {
+                "id": 10,
+                "name": "Current_Date",
+                "value": "{{arrow.utcnow().timestamp}}",
+                "default_value": "{{arrow.utcnow().timestamp}}"
+            },
+            {
+                "id": 17,
+                "name": "Tomorrow_Date",
+                "value": "{{arrow.utcnow().shift(hours=+24).timestamp}}",
+                "default_value": "{{arrow.utcnow().shift(hours=+24).timestamp}}"
+            }
+        ],
+        "connectors": [
+            {
+                "name": "SMTP",
+                "apiName": "smtp"
+            }
+        ],
+        "recordSets": [
+            {
+                "name": "Scenario",
+                "apiName": "scenario",
+                "count": 1
+            }
+        ]
+    }
+}
