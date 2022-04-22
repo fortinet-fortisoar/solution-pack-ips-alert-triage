@@ -1,0 +1,41 @@
+[
+    {
+        "@type": "Scenario",
+        "configuration": null,
+        "title": "SIEM IPS Alert Triage through CVE correlation",
+        "steps": {
+            "Steps": [
+                {
+                    "name": "SIEM IPS Alert Triage through CVE correlation (True Positive)",
+                    "type": "executePlaybook",
+                    "playbookIRI": "\/api\/3\/workflows\/72e9dc7c-4a4b-4ac9-82a8-ad874028bffb",
+                    "preCreateMessage": "Running IPS Alert Triage (Asset Vulnerable - True Positive) playbook",
+                    "postCreateMessage": "High Severity Inbound Permitted IPS Exploit alert created",
+                    "waitTimeforNextStep": 5
+                },
+                {
+                    "name": "SIEM IPS Alert Triage through CVE correlation (False Positive)",
+                    "type": "executePlaybook",
+                    "playbookIRI": "\/api\/3\/workflows\/1ff23ce8-2cf9-422c-b7a2-89d8b7fa0e53",
+                    "preCreateMessage": "Running IPS Alert Triage (Asset not Vulnerable - False Positive) playbook",
+                    "postCreateMessage": "High Severity Inbound Permitted IPS Exploit alert created",
+                    "waitTimeforNextStep": 0
+                }
+            ]
+        },
+        "createdAlertsID": null,
+        "description": "# SIEM IPS Alert Triage through CVE correlation\n\nIn this scenario a SIEM system (FortiSIEM) triggers an Incident every time the IPS (FortiGate) logs a Permitted Inbound IPS packet. FortiSIEM then opens an alert in FortiSOAR which is maps all the incident artifacts and proceeds to validate if the target of the attack is vulnerable to the CVE reported by the FortiGate.\n\nThe vulnerability information is sourced from Nessus and mapped in the Vulnerability Management module, it would work the same way with any supported vulnerability scanner.\n\nThe aim of the scenario is to showcase the speed at which such Incidents can be closed, by correlating information from multiple sources to determine that even though a packet passed through the FortiGate, the alert may be a false positive because the target asset is not vulnerable to that specific CVE ID.\n\n### 1) Prerequisites\n\n- SMTP Connector configured \n- SLA Connector configured\n- MITRE ATT&CK Connector configured with scheduled ingestion\n- FortiSOAR SOC Simulator\n\n### 2) Simulation Steps:\n**- Alert1:**\n- IPS detects a remote exploit attack against Asset 10.222.248.67 exploiting vulnerability CVE-2020-1350\n- FortiSOAR checks the list of Asset 10.222.248.67 vulnerabilities where CVE-2020-1350 is included.\n- FortiSOAR then escalates this Alert to an Incident as **True Positive** creating a Task to Assign the resulting Incident to an Analyst so he can Assign, Investigate and Remediate the Incident by blocking the IP on a FortiGate, due to the high risk of compromise.\n\n#### Things to show in the Alert\n- Open the alert, show the Workspace \/ Comments section. This is populated by playbooks and serves to show the process of automatically analysing each inbound alert.\n- On the bottom panel, click on Indicators, Correlations and Tasks. There is a lot of contextual information an analyst can derive by clicking on any malicious indicator and also correlations. For this specific use case, click on the affected Asset in Correlations\/Assets to showcase all the information we know about that asset. This can also position FortiSOAR as a CMDB.\n- Click on Correlations\/Technique and on the Technique ID, to show MITRE information.\n- Click on Correlations\/Incident to move on to the Incident.\n\n#### Things to show in the Incident\n- Show the Incident Graph where all the related artifacts are tied together. We can clearly paint a picture of the Incident by looking at the link graph.\n- Remember the task you now have, remediate the incident by clicking on Indicators, Selecting the Malicious IP and Execute one of the Block IP playbooks. An alternative to this, to showcase the flexibility one can give to analysts, is to click on the Actions \/ chose a Connector (such as a FortiGate) and then pass on the Malicious IP as an attribute. This will show how one can leverage all the security technologies in their arsenal with the information at hand in FortiSOAR, without having to resort to multiple applications and consoles to do incident management.\n\n\n**- Alert2:**\n- IPS detects a remote exploit attack against Asset 10.222.248.67  exploiting vulnerability CVE-2008-4250\n- FortiSOAR checks the list of Asset 10.222.248.67 vulnerabilities and determines CVE-2008-4250 is not one of them\n- FortiSOAR then Closes the alert as **False Positive** because the risk of successful compromise is null\n- FortiSOAR asks the analyst to confirm the automated closure of the alert on the FortiSIEM side (this can be applied to any SIEM \/ Ticketing Platform). It could also be automated so as to not even require human input.\n- The point is to showcase how much analyst time one can save by automating these 'low hanging fruit' kind of alerts that require simple validations which consume a lot of human time.",
+        "comments": [],
+        "uuid": "cea9f89f-71c0-45e5-b277-8c17cac65f18",
+        "createUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
+        "createDate": 1646929496,
+        "modifyUser": "\/api\/3\/appliances\/57545210-2adc-472b-a24f-2df6ee8dfe63",
+        "modifyDate": 1649173247,
+        "id": 23,
+        "recordTags": [
+            "FortiSOAR",
+            "FortiSIEM",
+            "IPS"
+        ]
+    }
+]

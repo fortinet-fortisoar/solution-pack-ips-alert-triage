@@ -1,0 +1,33 @@
+{
+    "@context": "\/api\/3\/contexts\/PicklistName",
+    "@id": "\/api\/3\/picklist_names\/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+    "@type": "PicklistName",
+    "name": "AlertType",
+    "system": false,
+    "picklists": [
+        {
+            "@id": "\/api\/3\/picklists\/7142be21-0e57-4576-a3c7-467bd04cd37b",
+            "@type": "Picklist",
+            "itemValue": "SECURITY_INIT_ACCESS",
+            "orderIndex": null,
+            "color": null,
+            "icon": null,
+            "listName": "\/api\/3\/picklist_names\/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+            "uuid": "7142be21-0e57-4576-a3c7-467bd04cd37b",
+            "id": 335
+        },
+        {
+            "@id": "\/api\/3\/picklists\/33272f56-79aa-4edd-8f27-8e0aeccad730",
+            "@type": "Picklist",
+            "itemValue": "SECURITY_EXECUTION",
+            "orderIndex": null,
+            "color": null,
+            "icon": null,
+            "listName": "\/api\/3\/picklist_names\/a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+            "uuid": "33272f56-79aa-4edd-8f27-8e0aeccad730",
+            "id": 336
+        }
+    ],
+    "uuid": "a7087b9c-5660-495f-a8ac-c3b198ddb8c2",
+    "id": 14
+}

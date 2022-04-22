@@ -1,0 +1,149 @@
+{
+    "@type": "Workflow",
+    "triggerLimit": null,
+    "name": "Approval Playbook Example",
+    "aliasName": null,
+    "tag": null,
+    "description": null,
+    "isActive": true,
+    "debug": false,
+    "singleRecordExecution": false,
+    "remoteExecutableFlag": false,
+    "parameters": [],
+    "synchronous": false,
+    "lastModifyDate": 1646394633,
+    "collection": "\/api\/3\/workflow_collections\/5b5e50c1-2ae8-4cf7-b4fb-e6ac730eda61",
+    "versions": [],
+    "triggerStep": "\/api\/3\/workflow_steps\/e58b1738-f492-4d07-b93e-42232e19cab3",
+    "steps": [
+        {
+            "@type": "WorkflowStep",
+            "name": "Start",
+            "description": null,
+            "arguments": {
+                "route": "ec6c68e6-777c-4a6e-bf15-b3778d75abde",
+                "resources": [
+                    "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                    "input": {
+                        "params": [],
+                        "records": "{{vars.input.records}}"
+                    }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+            },
+            "status": null,
+            "top": "40",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+            "uuid": "e58b1738-f492-4d07-b93e-42232e19cab3",
+            "id": 8240
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Approval",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "method": {
+                        "id": 116,
+                        "@id": "\/api\/3\/picklists\/7a04788b-5128-4288-a0fc-6e82d18c3b7b",
+                        "icon": null,
+                        "uuid": "7a04788b-5128-4288-a0fc-6e82d18c3b7b",
+                        "@type": "Picklist",
+                        "color": null,
+                        "display": "System",
+                        "listName": "\/api\/3\/picklist_names\/d7bdd0ba-d721-4324-bec5-410e23f0f485",
+                        "itemValue": "System",
+                        "orderIndex": 1
+                    },
+                    "status": {
+                        "id": 207,
+                        "@id": "\/api\/3\/picklists\/d26464e0-1df4-46c2-a032-018911ba0c40",
+                        "icon": null,
+                        "uuid": "d26464e0-1df4-46c2-a032-018911ba0c40",
+                        "@type": "Picklist",
+                        "color": "#bf9937",
+                        "listName": "\/api\/3\/picklist_names\/ce294c1f-9318-425f-9a12-2957292f4cbf",
+                        "itemValue": "Pending",
+                        "orderIndex": 2
+                    },
+                    "assignedTo": "\/api\/3\/people\/228a5e47-ac43-46d5-aa17-574d45f07039",
+                    "playbookiri": "api\/3\/workflows\/3d9c67dc-ec8b-4359-a9e6-7bb94bb6e19d",
+                    "playbookname": "Approval Playbook Example",
+                    "playbookuuid": "3d9c67dc-ec8b-4359-a9e6-7bb94bb6e19d",
+                    "approvaldescription": "Approve Block IP"
+                },
+                "collection": "approvals",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "100",
+            "left": "440",
+            "stepType": "\/api\/3\/workflow_step_types\/6832e556-b9c7-497a-babe-feda3bd27dcg",
+            "uuid": "a7cfb3cb-c48d-4adf-a4d6-2b469c2f4557",
+            "id": 8241
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Block IP",
+            "description": null,
+            "arguments": {
+                "name": "Fortinet FortiGate",
+                "config": "a",
+                "params": {
+                    "vdom": "",
+                    "method": "Quarantine Based",
+                    "ip_addresses": ".",
+                    "time_to_live": "12 Hour"
+                },
+                "version": "5.0.0",
+                "connector": "fortigate-firewall",
+                "operation": "block_ip",
+                "operationTitle": "Block IP Address",
+                "pickFromTenant": false,
+                "step_variables": []
+            },
+            "status": null,
+            "top": "119",
+            "left": "723",
+            "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
+            "uuid": "b0826046-b48c-40a6-8dd2-5086ab408a76",
+            "id": 8242
+        }
+    ],
+    "routes": [
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Approval",
+            "targetStep": "\/api\/3\/workflow_steps\/a7cfb3cb-c48d-4adf-a4d6-2b469c2f4557",
+            "sourceStep": "\/api\/3\/workflow_steps\/e58b1738-f492-4d07-b93e-42232e19cab3",
+            "label": null,
+            "isExecuted": false,
+            "uuid": "662757f0-6a5b-416d-8b9e-f6d131ed0324"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Approval -> Block IP",
+            "targetStep": "\/api\/3\/workflow_steps\/b0826046-b48c-40a6-8dd2-5086ab408a76",
+            "sourceStep": "\/api\/3\/workflow_steps\/a7cfb3cb-c48d-4adf-a4d6-2b469c2f4557",
+            "label": null,
+            "isExecuted": false,
+            "uuid": "d4bf177f-ce05-4fda-868f-8946ae73034b"
+        }
+    ],
+    "priority": "\/api\/3\/picklists\/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+    "uuid": "3d9c67dc-ec8b-4359-a9e6-7bb94bb6e19d",
+    "recordTags": [],
+    "id": 1603,
+    "createUser": "\/api\/3\/people\/228a5e47-ac43-46d5-aa17-574d45f07039",
+    "createDate": 1646392012,
+    "modifyUser": "\/api\/3\/people\/228a5e47-ac43-46d5-aa17-574d45f07039",
+    "modifyDate": 1646393401,
+    "owners": [],
+    "isPrivate": false
+}
